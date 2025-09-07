@@ -1,0 +1,19 @@
+#root {
+  max-width: 1280px;
+  margin: 0;
+  text-align: center;
+}
+
+.title_box {
+  display:flex;
+  align-items:center;
+  margin: 0;
+  padding: 10px;
+  width: 240px;
+  background-color: #8A5EFF;
+}
+
+.title {
+  font-size: 16px;
+}
+

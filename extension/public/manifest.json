@@ -1,0 +1,17 @@
+{
+  "name": "ezClips",
+  "description": "Base Level Extension",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "index.html"
+  },
+  "permissions": ["scripting"],
+  "host_permissions": ["http://*/*", "https://*/*"],
+  "icons":{
+    "16": "clipstream16.png",
+    "32": "clipstream32.png",
+    "48": "clipstream48.png",
+    "128": "clipstream128.png"
+  }
+}
