@@ -1,17 +1,30 @@
 {
   "name": "ezClips",
-  "description": "Base Level Extension",
+  "description": "Chrome extension for automatically uploading Twitch clips to Tiktok",
   "version": "1.0.0",
   "manifest_version": 3,
   "action": {
     "default_popup": "index.html"
   },
-  "permissions": ["scripting"],
+  "permissions": ["scripting", "tabs", "storage"],
   "host_permissions": ["http://*/*", "https://*/*"],
-  "icons":{
+  "icons": {
     "16": "clipstream16.png",
     "32": "clipstream32.png",
     "48": "clipstream48.png",
     "128": "clipstream128.png"
-  }
+  },
+  "background": {
+    "service_worker": "scripts/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.tiktok.com/tiktokstudio/upload*",
+        "https://www.tiktok.com/*upload*"
+      ],
+      "js": ["scripts/upload.js"],
+      "run_at": "document_end"
+    }
+  ]
 }

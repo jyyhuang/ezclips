@@ -1,0 +1,53 @@
+form {
+  display: flex;
+  gap: 12px;
+  margin-left: 20px;
+  margin-right: 20px;
+  justify-content: center;
+  align-items: center;
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  label {
+    white-space: nowrap;
+  }
+
+  input {
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 3px;
+    padding: 6px;
+  }
+
+  input:focus {
+    outline: none;
+    border-color: #646cff;
+    box-shadow: 0 0 5px rgba(0, 128, 255, 0.5);
+  }
+
+  input:placeholder {
+    color: #999;
+    font-style: italic;
+  }
+
+  .input_streamer {
+    width: 155px;
+  }
+
+  .input_days {
+    width: 80px;
+  }
+
+  .input_amount {
+    width: 80px;
+  }
+
+  .download_button {
+    margin-top: 16px;
+    white-space: nowrap;
+  }
+}

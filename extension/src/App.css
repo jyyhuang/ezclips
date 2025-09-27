@@ -5,15 +5,20 @@
 }
 
 .title_box {
-  display:flex;
-  align-items:center;
+  display: flex;
+  align-items: center;
   margin: 0;
   padding: 10px;
-  width: 240px;
-  background-color: #8A5EFF;
+  width: 100%;
+  background-color: #8a5eff;
 }
 
 .title {
   font-size: 16px;
 }
 
+.caption {
+  margin: 20px;
+  font-size: 1rem;
+  color: #8a5eff;
+}
