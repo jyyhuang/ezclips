@@ -31,8 +31,6 @@ app.get("/generate-clips", async (req, res) => {
     const user_id = user.id;
     const clips = await twitch.getClips(user_id, days, amount);
 
-    console.log("Fetched Clips: ");
-    console.log(clips);
     res.json({ streamer: broadcasterName, clips });
   } catch (err) {
     console.error("Error generating clips:", err);

@@ -19,7 +19,7 @@ class TwitchAPI {
     }
     try {
       const now = new Date();
-      const lastWeek = new Date(now.getTime() - days * 24 * 60 * 60 * 1000); // last 2 days
+      const lastWeek = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
       const rfc3339 = lastWeek.toISOString();
 
       const res = await axios.get("https://api.twitch.tv/helix/clips", {
