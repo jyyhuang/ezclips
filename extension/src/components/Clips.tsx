@@ -7,7 +7,6 @@ interface ClipsProps {
   downloadFile: (url: string, filename: string) => void;
   loading: boolean;
   error: string | null;
-  streamer: string;
 }
 
 const Clips: React.FC<ClipsProps> = ({
@@ -15,7 +14,6 @@ const Clips: React.FC<ClipsProps> = ({
   downloadFile,
   loading,
   error,
-  streamer,
 }) => {
   const [selecting, setSelecting] = useState(false);
   const [selectedClips, setSelectedClips] = useState<string[]>([]);
@@ -43,53 +41,29 @@ const Clips: React.FC<ClipsProps> = ({
         for (let i = 0; i < clipsToUpload.length; i++) {
           const clip = clipsToUpload[i];
 
-          console.log(
-            `Processing clip ${i + 1}/${clipsToUpload.length}: ${clip.title}`,
-          );
-
           // Store clip data in chrome storage
           try {
-            await new Promise<void>((resolve, reject) => {
-              chrome.storage.local.set(
-                {
-                  [`tiktok_upload_${clip.id}`]: {
-                    videoUrl: clip.mp4Url,
-                    caption: clip.title,
-                    filename: clip.filename,
-                    tags: `#${streamer} #fyp`,
-                  },
-                },
-                () => {
-                  if (chrome.runtime.lastError) {
-                    reject(new Error(chrome.runtime.lastError.message));
-                  } else {
-                    resolve();
-                  }
-                },
-              );
+            chrome.storage.local.set({
+              [`tiktok_upload_${clip.id}`]: {
+                videoUrl: clip.mp4Url,
+                caption: clip.title,
+                filename: clip.filename,
+              },
             });
 
-            await new Promise<void>((resolve, reject) => {
-              chrome.tabs.create(
-                {
-                  url: `https://www.tiktok.com/upload?clipId=${encodeURIComponent(clip.id)}`,
-                  active: false,
-                },
-                (tab) => {
-                  if (chrome.runtime.lastError) {
-                    reject(new Error(chrome.runtime.lastError.message));
-                  } else {
-                    console.log(`Created tab for clip: ${clip.title}`, tab?.id);
-                    resolve();
-                  }
-                },
-              );
-            });
+            const baseDelay = 3000;
+            const randomDelay = Math.random() * 2000;
+            const totalDelay = baseDelay + randomDelay;
 
             // Add delay between tab creations
-            if (i < clipsToUpload.length - 1) {
-              await new Promise((resolve) => setTimeout(resolve, 1000)); // 1 second delay
+            if (i > 0) {
+              await new Promise((resolve) => setTimeout(resolve, totalDelay));
             }
+
+            chrome.tabs.create({
+              url: `https://www.tiktok.com/upload?clipId=${encodeURIComponent(clip.id)}`,
+              active: false,
+            });
           } catch (error) {
             console.error(`Failed to process clip ${clip.title}:`, error);
             alert(
@@ -97,15 +71,6 @@ const Clips: React.FC<ClipsProps> = ({
             );
           }
         }
-      } else {
-        clipsToUpload.forEach((clip, index) => {
-          setTimeout(() => {
-            window.open(
-              `https://www.tiktok.com/upload?clipId=${clip.id}`,
-              "_blank",
-            );
-          }, index * 500); // 500ms delay between each tab
-        });
       }
     } catch (error) {
       console.error("Upload process failed:", error);

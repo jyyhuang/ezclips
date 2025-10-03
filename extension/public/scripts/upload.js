@@ -7,7 +7,6 @@ async function clearStorage() {
             console.error("Error clearing storage:", chrome.runtime.lastError);
             reject(new Error(chrome.runtime.lastError.message));
           } else {
-            console.log("Cleared all chrome local storage");
             resolve();
           }
         });
@@ -34,7 +33,6 @@ function waitForFileInput(callback) {
     for (const selector of selectors) {
       const input = document.querySelector(selector);
       if (input && !input.disabled) {
-        console.log(`Found input with selector: ${selector}`);
         return input;
       }
     }
@@ -85,7 +83,6 @@ async function fetchVideo(url, maxRetries = 2) {
         throw new Error(`Background fetch failed: ${response.error}`);
       }
 
-      console.log("Content: Received data URL from background script");
       return response.dataUrl;
     } catch (error) {
       console.error(`Fetch attempt ${attempt} failed:`, error);
@@ -123,8 +120,6 @@ function dataUrlToFile(dataUrl, filename) {
 }
 
 (async function () {
-  console.log("Content script loaded on:", window.location.href);
-
   // Check if this is a TikTok upload page
   const isTikTokUpload =
     window.location.href.includes("/upload") ||
@@ -132,6 +127,7 @@ function dataUrlToFile(dataUrl, filename) {
 
   if (!isTikTokUpload) {
     console.log("Not a TikTok upload page, exiting");
+    await clearStorage();
     return;
   }
 
@@ -154,11 +150,11 @@ function dataUrlToFile(dataUrl, filename) {
 
   if (!clipId) {
     console.log("No clipId found in URL");
+    await clearStorage();
     return;
   }
 
   const key = `tiktok_upload_${clipId}`;
-  console.log("Looking for storage key:", key);
 
   try {
     if (!chrome || !chrome.storage || !chrome.storage.local) {
@@ -177,6 +173,7 @@ function dataUrlToFile(dataUrl, filename) {
           }
         });
       } catch (error) {
+        clearStorage();
         reject(new Error(`Storage access failed: ${error.message}`));
       }
     });
@@ -185,14 +182,8 @@ function dataUrlToFile(dataUrl, filename) {
     if (!clipData) {
       console.error("No clip data found for", key);
       await clearStorage();
-
-      chrome.storage.local.get(null, (all) => {
-        console.log("All storage keys:", Object.keys(all));
-      });
       return;
     }
-
-    console.log("Found clipData:", clipData);
 
     try {
       console.log("Content: Starting video download...");
@@ -201,32 +192,13 @@ function dataUrlToFile(dataUrl, filename) {
 
       const file = dataUrlToFile(dataUrl, clipData.filename || "clip.mp4");
 
-      console.log("File ready:", {
-        name: file.name,
-        size: file.size,
-        type: file.type,
-      });
-
       // Wait for TikTok file input
       waitForFileInput((input) => {
-        console.log("Found file input:", input);
-
         try {
           const dt = new DataTransfer();
           dt.items.add(file);
 
-          console.log("Original files count:", input.files?.length || 0);
-
           input.files = dt.files;
-
-          console.log("New files count:", input.files.length);
-          if (input.files.length > 0) {
-            console.log("File details:", {
-              name: input.files[0].name,
-              size: input.files[0].size,
-              type: input.files[0].type,
-            });
-          }
 
           input.focus();
 
@@ -239,7 +211,6 @@ function dataUrlToFile(dataUrl, filename) {
 
           events.forEach(({ event, delay }) => {
             setTimeout(() => {
-              console.log(`Triggering ${event} event`);
               input.dispatchEvent(
                 new Event(event, { bubbles: true, cancelable: true }),
               );
@@ -266,10 +237,12 @@ function dataUrlToFile(dataUrl, filename) {
                 console.warn("Chrome storage not available for cleanup");
               }
             } catch (cleanupError) {
+              clearStorage();
               console.error("Storage cleanup failed:", cleanupError);
             }
           }, 2000);
         } catch (injectionError) {
+          clearStorage();
           console.error("File injection failed:", injectionError);
         }
       });

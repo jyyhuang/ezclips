@@ -102,7 +102,6 @@ function App() {
         downloadFile={downloadFile}
         loading={loading}
         error={error}
-        streamer={streamer}
       />
     </>
   );

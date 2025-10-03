@@ -1,9 +1,8 @@
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type === "FETCH_VIDEO") {
-    // Handle the fetch and keep the service worker alive
+    // Handle the fetch
     handleVideoFetch(request.url)
       .then((dataUrl) => {
-        console.log("Background: Successfully fetched video, sending response");
         sendResponse({ success: true, dataUrl });
       })
       .catch((error) => {
@@ -17,58 +16,42 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   return false;
 });
 
-let keepAliveInterval;
-
-function keepServiceWorkerAlive() {
-  // Clear any existing interval
-  if (keepAliveInterval) {
-    clearInterval(keepAliveInterval);
-  }
-
-  // Ping every 20 seconds to keep service worker alive
-  keepAliveInterval = setInterval(() => {
-    console.log("Background: Keeping service worker alive");
-  }, 20000);
-}
-
-function stopKeepAlive() {
-  if (keepAliveInterval) {
-    clearInterval(keepAliveInterval);
-    keepAliveInterval = null;
-  }
-}
-
 async function handleVideoFetch(url) {
-  keepServiceWorkerAlive();
-
-  try {
-    console.log("Background: Starting fetch for", url);
-    const dataUrl = await fetchVideoAsDataUrl(url);
-    console.log("Background: Fetch completed successfully");
-    return dataUrl;
-  } finally {
-    stopKeepAlive();
-  }
+  const dataUrl = await fetchVideoAsDataUrl(url);
+  return dataUrl;
 }
 
 async function fetchVideoAsDataUrl(url) {
   try {
-    console.log("Background: Fetching video from", url);
-
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 120000);
+    const userAgents = [
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+      "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Mobile Safari/537.36",
+      "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36>",
+    ];
+    const randomUA = userAgents[Math.floor(Math.random() * userAgents.length)];
 
     const response = await fetch(url, {
       method: "GET",
-      signal: controller.signal,
       headers: {
-        Accept: "video/*,*/*",
+        Accept:
+          "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Accept-Encoding": "gzip, deflate, br",
         "Cache-Control": "no-cache",
-        "User-Agent": "Mozilla/5.0 (compatible; TikTokUploader/1.0)",
+        "Sec-Ch-Ua":
+          '"Google Chrome";v="140", "Chromium";v="140", "Not=A?Brand";v="24"',
+        "Sec-Ch-Ua-Mobile": "?0",
+        "Sec-Ch-Ua-Platform": '"Linux"',
+        "Sec-Fetch-Dest": "document",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Site": "none",
+        "Sec-Fetch-User": "?1",
+        "Upgrade-Insecure-Requests": "1",
+        "User-Agent": randomUA,
       },
+      credentials: "omit",
+      mode: "cors",
     });
-
-    clearTimeout(timeoutId);
 
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -76,11 +59,6 @@ async function fetchVideoAsDataUrl(url) {
 
     const contentLength = response.headers.get("content-length");
     const contentType = response.headers.get("content-type") || "video/mp4";
-
-    console.log("Background: Response headers:", {
-      contentLength,
-      contentType,
-    });
 
     if (contentLength && parseInt(contentLength) > 45 * 1024 * 1024) {
       throw new Error(
@@ -98,14 +76,9 @@ async function fetchVideoAsDataUrl(url) {
 
       chunks.push(value);
       receivedLength += value.length;
-
-      if (receivedLength % (1024 * 1024) < value.length) {
-        console.log(`Background: Download progress: ${receivedLength} bytes`);
-      }
     }
 
     const blob = new Blob(chunks, { type: contentType });
-    console.log("Background: Downloaded blob size:", blob.size, "bytes");
 
     if (blob.size < 1024) {
       throw new Error("Video file too small, likely an error response");
@@ -119,7 +92,6 @@ async function fetchVideoAsDataUrl(url) {
     }
 
     // Convert to data URL
-    console.log("Background: Converting to data URL...");
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => {
