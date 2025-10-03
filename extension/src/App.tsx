@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-import logo from "./assets/clipstream48.png";
+import logo from "./assets/ezclips48.png";
 import Clips from "./components/Clips";
 import ClipForm from "./components/ClipForm";
 import { type Clip } from "./interfaces/clip";
@@ -83,7 +83,7 @@ function App() {
     <>
       <div className="title_box">
         <img src={logo} alt="Logo" />
-        <div className="title">ezClips</div>
+        <div className="title">Ezclips</div>
       </div>
       <div className="caption">Capture the best Twitch moments</div>
 
