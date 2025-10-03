@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://raw.githubusercontent.com/jyyhuang/ezclips/refs/heads/main/extension/public/clipstream128.png" alt="ezclips">
+  <img src="https://raw.githubusercontent.com/jyyhuang/ezclips/refs/heads/main/extension/public/ezclips128.png" alt="ezclips">
 
 Ezclips
 
