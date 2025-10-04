@@ -1,5 +1,4 @@
 import axios from "axios";
-import puppeteer from "puppeteer";
 
 function sanitizeFilename(name) {
   return name
@@ -37,7 +36,27 @@ class TwitchAPI {
         return [];
       }
 
-      const browser = await puppeteer.launch({ headless: true });
+      let browser;
+      const isVercel = !!process.env.VERCEL_ENV;
+
+      let puppeteer,
+        launchOptions = {
+          headless: true,
+        };
+
+      if (isVercel) {
+        const chromium = (await import("@sparticuz/chromium")).default;
+        puppeteer = await import("puppeteer-core");
+        launchOptions = {
+          ...launchOptions,
+          args: chromium.args,
+          executablePath: await chromium.executablePath(),
+        };
+      } else {
+        puppeteer = await import("puppeteer");
+      }
+
+      browser = await puppeteer.launch(launchOptions);
       const page = await browser.newPage();
       const results = [];
 

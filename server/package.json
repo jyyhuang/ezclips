@@ -1,20 +1,25 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Ezclips api server",
   "license": "ISC",
   "author": "",
   "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "node --watch index.js"
   },
   "dependencies": {
+    "@sparticuz/chromium": "^140.0.0",
     "axios": "^1.11.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
-    "puppeteer": "^24.18.0"
+    "puppeteer-core": "^24.23.0"
+  },
+  "devDependencies": {
+    "puppeteer": "^24.23.0"
   }
 }
