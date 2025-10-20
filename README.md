@@ -9,7 +9,7 @@ Ezclips
   <strong>A Chrome extension that streamlines uploading Twitch clips to TikTok by automating the injection process.</strong>
 </p>
 
-## 🎯 Features
+## Features
 
 - **Gathers Top Clips**: Retrieves top clips from any Twitch streamer through the Twitch API
 - **Auto-Injection**: Automatically injects video files into Tiktok's upload form
@@ -17,7 +17,7 @@ Ezclips
 - **Bulk Download**: Download individual clips or all at once
 - **Smart Upload**: Batch upload with anti-bot-detection delays
 
-## 🚀 Installation
+## Installation
 
 ### Prerequisites
 
@@ -47,7 +47,7 @@ Ezclips
    - Click the icon to open the extension popup
    - Check that there are no errors on the extensions page
 
-## 💻 Usage
+## Usage
 
 ### Step 1: Find Clips
 
@@ -95,7 +95,7 @@ TikTok has sophisticated bot detection that can temporarily block your access. R
 - 1-3 clips at a time (safest)
 - 4-5 clips (moderate risk)
 
-#### ⚠️ If You Get Blocked
+#### If You Get Blocked
 
 If you see this error:
 
@@ -112,7 +112,7 @@ Reference #18.xxxxxxxx.xxxxxxxxxx.xxxxxxxx
 - Try incognito mode
 - Switch networks
 
-## 🤝 Contributing
+## Contributing
 
 Contributions welcome! Areas for improvement:
 
@@ -124,7 +124,7 @@ Contributions welcome! Areas for improvement:
 - AI editing features (auto-captions, clip trimming)
 - Support for other platforms (YouTube Shorts, Instagram Reels)
 
-## 📮 Support
+## Support
 
 For issues, questions, or suggestions:
 
