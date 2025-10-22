@@ -49,6 +49,13 @@ Ezclips
 
 ## Usage
 
+### Local Server
+   ```bash
+   cd server
+   npm i
+   npm run start
+   ```
+
 ### Step 1: Find Clips
 
 1. Click the Ezclips extension icon in your Chrome toolbar
