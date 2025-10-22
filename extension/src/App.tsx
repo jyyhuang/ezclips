@@ -13,6 +13,8 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
   const downloadFile = async (url: string, filename: string) => {
     try {
       const res = await fetch(url);
@@ -49,7 +51,7 @@ function App() {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/generate-clips?streamer=${encodeURIComponent(
+        `${VITE_API_URL}/generate-clips?streamer=${encodeURIComponent(
           streamer,
         )}&days=${encodeURIComponent(safeDays)}&amount=${encodeURIComponent(safeAmount)}`,
         {
