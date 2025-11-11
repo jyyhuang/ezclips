@@ -91,46 +91,6 @@ Ezclips
 
 > **Note**: TikTok tabs will open in the background. You may need to manually add captions, hashtags, and finalize the upload on each tab.
 
-## Best Practices
-
-### Avoiding TikTok Blocks
-
-TikTok has sophisticated bot detection that can temporarily block your access. Recommendations:
-
-**Upload in Small Batches**
-
-- 1-3 clips at a time (safest)
-- 4-5 clips (moderate risk)
-
-#### If You Get Blocked
-
-If you see this error:
-
-```
-Access Denied
-You don't have permission to access "http://www.tiktok.com/upload?"
-Reference #18.xxxxxxxx.xxxxxxxxxx.xxxxxxxx
-```
-
-**Recovery steps:**
-
-- Wait 10-30 minutes (or longer for repeated blocks)
-- Clear TikTok cookies
-- Try incognito mode
-- Switch networks
-
-## Contributing
-
-Contributions welcome! Areas for improvement:
-
-- Better file input detection for TikTok UI changes
-- Support for larger files (chunking/streaming)
-- More sophisticated anti-bot-detection techniques
-- Queue management for large batch uploads
-- Progress indicators in extension popup
-- AI editing features (auto-captions, clip trimming)
-- Support for other platforms (YouTube Shorts, Instagram Reels)
-
 ## Support
 
 For issues, questions, or suggestions:
