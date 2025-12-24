@@ -36,46 +36,45 @@ class TwitchAPI {
         return [];
       }
 
-      let browser;
-      const isVercel = !!process.env.VERCEL_ENV;
-
-      let puppeteer,
-        launchOptions = {
-          headless: true,
-        };
-
-      if (isVercel) {
-        const chromium = (await import("@sparticuz/chromium")).default;
-        puppeteer = await import("puppeteer-core");
-        launchOptions = {
-          ...launchOptions,
-          args: chromium.args,
-          executablePath: await chromium.executablePath(),
-        };
-      } else {
-        puppeteer = await import("puppeteer");
-      }
-
-      browser = await puppeteer.launch(launchOptions);
-      const page = await browser.newPage();
       const results = [];
 
       for (const clip of clips_data) {
-        await page.goto(clip.url, { waitUntil: "networkidle2" });
-        await page.waitForSelector("video");
-        const mp4Url = await page.$eval("video", (el) => el.src);
-        const safeFileName = sanitizeFilename(clip.title);
+        const clipId = clip.id;
+        // gql query
+        const response = await fetch("https://gql.twitch.tv/gql", {
+          method: "POST",
+          headers: {
+            "Client-ID": "kimne78kx3ncx6brgo4mv6wki5h1ko",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            operationName: "ShareClipRenderStatus",
+            variables: { slug: clipId },
+            extensions: {
+              persistedQuery: {
+                version: 1,
+                sha256Hash:
+                  "f130048a462a0ac86bb54d653c968c514e9ab9ca94db52368c1179e97b0f16eb",
+              },
+            },
+          }),
+        });
 
+        const data = await response.json();
+        const c = data.data.clip;
+        const quality = c.videoQualities[0];
+        const downloadUrl = `${quality.sourceURL}?sig=${c.playbackAccessToken.signature}&token=${encodeURIComponent(c.playbackAccessToken.value)}`;
+
+        const safeFileName = sanitizeFilename(clip.title);
         results.push({
-          id: clip.id,
+          id: clipId,
           title: clip.title,
-          mp4Url,
+          downloadUrl,
           filename: `${safeFileName}.mp4`,
+          thumbnailUrl: c.thumbnailURL
         });
       }
-
-      await page.close();
-      await browser.close();
+      console.log(results);
 
       return results;
     } catch (err) {

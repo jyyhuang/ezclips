@@ -45,7 +45,7 @@ const Clips: React.FC<ClipsProps> = ({
           try {
             chrome.storage.local.set({
               [`tiktok_upload_${clip.id}`]: {
-                videoUrl: clip.mp4Url,
+                videoUrl: clip.downloadUrl,
                 caption: clip.title,
                 filename: clip.filename,
               },
@@ -95,7 +95,7 @@ const Clips: React.FC<ClipsProps> = ({
             <button
               onClick={() => {
                 clips.forEach((clip) =>
-                  downloadFile(clip.mp4Url, clip.filename),
+                  downloadFile(clip.downloadUrl, clip.filename),
                 );
               }}
               disabled={uploading}
@@ -151,14 +151,14 @@ const Clips: React.FC<ClipsProps> = ({
               <div key={clip.id} className="clip_card">
                 <h3>{clip.title}</h3>
                 <button
-                  onClick={() => downloadFile(clip.mp4Url, clip.filename)}
+                  onClick={() => downloadFile(clip.downloadUrl, clip.filename)}
                   className="download_button"
                   disabled={uploading}
                 >
                   Download
                 </button>
                 <video
-                  src={clip.mp4Url}
+                  src={clip.downloadUrl}
                   poster={clip.thumbnailUrl}
                   controls
                   width="320"

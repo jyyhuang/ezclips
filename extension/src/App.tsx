@@ -13,7 +13,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+  const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
   const downloadFile = async (url: string, filename: string) => {
     try {
