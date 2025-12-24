@@ -10,22 +10,22 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "chrome-types": "^0.1.370",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "chrome-types": "^0.1.403",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
-    "@types/chrome": "^0.1.12",
-    "@types/react": "^19.1.10",
-    "@types/react-dom": "^19.1.7",
-    "@vitejs/plugin-react": "^5.0.0",
-    "eslint": "^9.33.0",
+    "@types/chrome": "^0.1.32",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.2",
+    "eslint": "^9.39.2",
     "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.20",
-    "globals": "^16.3.0",
+    "eslint-plugin-react-refresh": "^0.4.26",
+    "globals": "^16.5.0",
     "typescript": "~5.8.3",
-    "typescript-eslint": "^8.39.1",
-    "vite": "^7.1.2"
+    "typescript-eslint": "^8.50.1",
+    "vite": "^7.3.0"
   }
 }
