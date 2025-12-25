@@ -6,7 +6,7 @@ Ezclips
 </h1>
 
 <p align="center">
-  <strong>A Chrome extension that streamlines uploading Twitch clips to TikTok by automating the injection process.</strong>
+  <strong>A Chrome extension that extracts and uploads Twitch clips to TikTok by automating the injection process.</strong>
 </p>
 
 ## Features
@@ -15,14 +15,14 @@ Ezclips
 - **Auto-Injection**: Automatically injects video files into Tiktok's upload form
 - **Preview**: Watch clips before downloading or uploading
 - **Bulk Download**: Download individual clips or all at once
-- **Smart Upload**: Batch upload with anti-bot-detection delays
 
 ## Installation
+
+As of now, the extension has not been uploaded to the chrome web store and requires manual installation.
 
 ### Prerequisites
 
 - Chromium based browser
-- Node and npm installed (v24.8.0)
 
 ### Steps
 
@@ -30,10 +30,6 @@ Ezclips
 
    ```bash
    git clone https://github.com/jyyhuang/ezclips.git
-   cd ezclips
-   cd extension
-   npm i
-   npm run build
    ```
 
 2. **Load the extension in Chrome**
@@ -48,13 +44,6 @@ Ezclips
    - Check that there are no errors on the extensions page
 
 ## Usage
-
-### Local Server
-   ```bash
-   cd server
-   npm i
-   npm run start
-   ```
 
 ### Step 1: Find Clips
 
@@ -89,7 +78,7 @@ Ezclips
    - Automatically inject video files into TikTok's upload form
    - Clean up storage after successful injection
 
-> **Note**: TikTok tabs will open in the background. You may need to manually add captions, hashtags, and finalize the upload on each tab.
+> **Note**: TikTok tabs will open in the background, but you may need to click on them for the scripts to run. You may also need to manually add captions, hashtags, and finalize the upload on each tab.
 
 ## Support
 
