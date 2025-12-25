@@ -6,7 +6,7 @@ Ezclips
 </h1>
 
 <p align="center">
-  <strong>A Chrome extension that extracts and uploads Twitch clips to TikTok by automating the injection process.</strong>
+  <strong>A Chrome extension that extracts and uploads Twitch clips to TikTok by automating injection.</strong>
 </p>
 
 ## Features
